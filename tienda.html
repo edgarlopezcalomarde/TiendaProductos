@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <title>DAW</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./css/bootstrap.min.css">
+  <link rel="shortcut icon" href="assets/icono.png" type="image/x-icon">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+ 
+</head>
+<script src="./js/datos.js"></script>
+<script src="./js/carrito.js"></script>
+<script src="./js/tienda.js"></script>
+
+
+<style>
+
+	*{
+		font-family: 'Poppins', sans-serif;
+	}
+
+	.cart_box{
+		cursor: pointer;
+    	vertical-align: middle;
+	}
+
+
+	.basket{
+		font-size: .6rem;
+		position: relative;
+		left: 28px;
+		bottom: 38px;
+
+		width: 15px;
+		height: 15px;
+		color: #fff;
+		background-color: #eb4171;
+		border-radius: 50%;
+		text-align: center;
+		display: block;
+	}
+
+	.oculto{
+		display: none;
+	}
+
+	#miDialogo{
+		border: none;
+		box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+		border-radius: 10px;
+
+	}
+
+
+	.navbar-brand{
+		font-weight: 700;
+	}
+
+	
+
+</style>
+
+<body>
+	<!-- Navbar BootStrap -->
+
+	
+
+	
+	<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+		<a class="navbar-brand" href="#">EddStore</a>
+		<button 
+			class="navbar-toggler"
+			type="button" 
+			data-toggle="collapse" 
+			data-target="#navbarSupportedContent" 
+			aria-controls="navbarSupportedContent" 
+			aria-expanded="false"
+			aria-label="Toggle navigation">
+
+		  <span class="navbar-toggler-icon"></span>
+		</button>
+
+		
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		  
+		  <form class="form-inline my-2 my-lg-0">
+			<select class="form-control mr-2" id="criteriosOrdenacion"></select>
+			<input class="form-control mr-sm-2" type="search" id="search" placeholder="Buscar articulo..."  aria-label="Search">
+		  </form>
+
+			<ul class="navbar-nav ml-auto nav-flex-icons">
+				<li class="nav-item avatar">
+				  <a class="nav-link p-0" href="#">
+					<img class="cart" src="assets/cart2.svg">  
+					<span class="basket">0</span>
+				  </a>
+				</li>
+			  </ul>
+	
+		</div>
+	  </nav>
+
+	  
+
+	<br>
+
+	<!-- Div contenedor de los cards de articulos -->
+	<div id="contenedor" class="row row-cols-1 row-cols-md-6 g-4 m-2 mt-5 p-4"></div>  
+	
+	<!-- Componente HTML para dialogos modales -->
+	<dialog id="miDialogo">
+		<div id="dialogHead">
+			<h2> Carrito  <span id="idPedido" class="h5" ></span><h2>
+		</div>
+		<div id="dialogContent">
+
+		</div>
+		<div id="dialogFooter">
+			<h3 class="text-right">Total: <span id="total"></span></h3>
+		</div>
+		<div class="text-center">
+			<button id="btnCierraDialog" class="btn btn-secondary">Seguir comprando</button>
+			<button id="btnEfectuaPedido" class="btn btn-info" >Efectuar pedido</button>
+		</div>
+	</dialog>
+	
+
+</body>
+</html>
