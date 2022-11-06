@@ -48,7 +48,7 @@ function pintaArticulos(orden){
 					<h5 class='card-title'>${art.nombre}</h5>
 					<p class='card-text'>${art.descripcion}</p>
 					<b>
-						<p class='card-text text-center'>${art.precio}</p>
+						<p class='card-text text-center card-price'>${art.precio}</p>
 					</b>
 				</div>
 				<button id='${art.codigo}' class='btn-success m-3 rounded'>Comprar</button>
@@ -75,6 +75,9 @@ function ponArticuloEnCarrito(){
 	carritoBox.innerHTML =""
 	let cesta = ""
 
+	//Hay que guardar en la string el codigo correspondiente a los elemntos del DOM para luego pintarlo con el innerhtml
+	//No lo puedes pintar directamente con el inner html porqure cuando pintas un elemento lo cierra automaticamente
+
 	cesta = "<table class='table table-striped'>"
 	cesta += `
 	<tr>
@@ -92,7 +95,7 @@ function ponArticuloEnCarrito(){
 	cart.articulos.forEach(cartArt=>{
 	
 		cesta += `
-		<tr class="${cartArt.codigo}">
+		<tr>
 			<td class="oculto">${cartArt.codigo}</td>
 			<td><img style="width:50px;" src="assets/${cartArt.codigo}.jpg"></td>
 			<td>${cartArt.nombre}</td>
@@ -100,19 +103,21 @@ function ponArticuloEnCarrito(){
 			<td>${cartArt.precio}</td>
 			<td>${cartArt.unidades}</td>
 			<td>${cartArt.unidades*cartArt.precio}</td>
-			<td>
+			<td class="${cartArt.codigo}" art="${cartArt.codigo}">
 				<button class="btn btn-primary btnAdd">+</button>
 				<button class="btn btn-warning btnRemove">-</button>
 				<button class="btn btn-danger btnDelete">Borrar</button>
 			</td>
 		</tr>
 		` 
+
+
 	})
 
 	cesta += "</table>"
 	carritoBox.innerHTML = cesta
 
-
+	//Contador de elementos del carrito
 	const basket = document.querySelector(".basket")
 	basket.innerHTML= cart.items
 
@@ -124,7 +129,6 @@ function ponArticuloEnCarrito(){
 		total.innerHTML = ""
 	}
 
-
 	/*Botones*/
 	const btnsDelete = document.querySelectorAll(".btnDelete")
 	const btnsAdd = document.querySelectorAll(".btnAdd")
@@ -132,10 +136,12 @@ function ponArticuloEnCarrito(){
 
 	
 	btnsDelete.forEach(btn=>{
-
+	
 		btn.addEventListener("click",()=>{
 			//cart.borraArticulo(btn.parentNode.parentNode.childNodes[1].textContent)
-			cart.borraArticulo(btn.parentNode.parentNode.classList[0])
+			//cart.borraArticulo(btn.parentNode.classList[0])
+			cart.borraArticulo(btn.parentNode.attributes.art.value)
+			
 			ponArticuloEnCarrito()
 		})
 	})	
@@ -144,7 +150,8 @@ function ponArticuloEnCarrito(){
 	btnsAdd.forEach(btn=>{
 		btn.addEventListener("click",()=>{
 			//cart.modificaUnidades(btn.parentNode.parentNode.childNodes[1].textContent, "+")
-			cart.modificaUnidades(btn.parentNode.parentNode.classList[0], "+")
+			//cart.modificaUnidades(btn.parentNode.classList[0], "+")
+			cart.modificaUnidades(btn.parentNode.attributes.art.value, "+")
 			ponArticuloEnCarrito()
 		})
 	})	
@@ -153,7 +160,8 @@ function ponArticuloEnCarrito(){
 	btnsRemove.forEach(btn=>{
 		btn.addEventListener("click",()=>{
 			//cart.modificaUnidades(btn.parentNode.parentNode.childNodes[1].textContent, "-")
-			cart.modificaUnidades(btn.parentNode.parentNode.classList[0], "-")
+			//cart.modificaUnidades(btn.parentNode.classList[0], "-")
+			cart.modificaUnidades(btn.parentNode.attributes.art.value, "-")
 			ponArticuloEnCarrito()
 		})
 	})	
@@ -169,10 +177,8 @@ function verCarro(){
 	const btnSeguirComprando = document.getElementById("btnCierraDialog")
 	const btnEfectuarPedido = document.getElementById("btnEfectuaPedido")
 
-
 	cartImg.addEventListener("click", ()=>{
 		dialog.showModal()	
-
 
 		if(cart.articulos.length < 1){
 			alert("El carrito esta vacio")
@@ -180,23 +186,10 @@ function verCarro(){
 		}
 	})
 
-	
 	idPedido.innerHTML = cart.id
 
 	btnSeguirComprando.addEventListener("click", ()=>{ dialog.close()})	
-	btnEfectuarPedido.addEventListener("click", ()=>{ 
-		document.write( JSON.stringify(
-			{
-				id: cart.id,
-				fecha: new Date().toLocaleDateString(),
-				nombre: cart.nombre,
-				articulos: cart.articulos,
-				total: cart.total
-			}
-			
-		))
-	
-	})	
+	btnEfectuarPedido.addEventListener("click", ()=>{ document.write( JSON.stringify(cart))})	
 }
 
 
@@ -222,13 +215,6 @@ function buscarProductos(){
 
 }
 
-function efectuaPedido(){
-
-	
-
-
-	
-}
 
 window.onload=()=>{
 
@@ -238,7 +224,6 @@ window.onload=()=>{
 	creaListaCriterios()
 	pintaArticulos(0)
 	verCarro()
-	
 	
 }
 

@@ -36,9 +36,6 @@ class Carrito{
 		}
 	}	
 			
-	verCarrito(){
-	}
-	
 	get total(){
 		return this.articulos.reduce((a,b)=> a + (b.precio*b.unidades), 0)
 	}
